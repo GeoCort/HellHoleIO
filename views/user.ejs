@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/output.css">
+    <script src="https://kit.fontawesome.com/725392aa44.js" crossorigin="anonymous"></script>
+   
+    <title><%=title%></title>
+</head>
+<body class="bg-slate-50">
+    <header class="bg-zinc-100/95">
+        <nav class="flex justify-between items-center w-full px-[10%] py-2">
+          <div class="h-28 w-40 rounded-lg p-2 ">
+            <a href=<%=`/user/${user.id}`%>><img src="/images/hellholeiologo.webp" class="w-full h-full" /></a>
+          </div>
+          <!-- Upload Form -->
+          <form method="post" action="/log-out" enctype="multipart/form-data" ><button class="p-2 px-3 bg-red-500 text-white rounded-md">logout</button></form>
+        </nav>
+      </header>
+      <!-- Content -->
+       <main class="  min-h-screen mx-[10%] xl:mx-[15%] my-10 border-2 rounded-md ">
+        <h1 class=" text-3xl font-semibold p-5">Welcome Back, <%= user.username? user.username: "user" %></h1>
+        <!-- Header Tab  -->
+        <section class="*:p-5 border-2 border-b-0 flex lg:justify-between items-center flex-col lg:flex-row w-full bg-slate-50 rounded-t-md ">
+          <div >
+            <h3 class="text-4xl font-bold "><%= bucket.name%></h3>
+          </div>
+            <div class="flex items-center gap-5 lg:justify-start flex-col xl:flex-row border-b-2 lg:border-none ">
+              <!-- Create a Folder -->
+                <i class="fa-solid fa-folder-plus text-4xl hover:text-blue-400" id="create_folder"></i>
+                <dialog id="file_Dialog" class="min-h-96 min-w-80 p-20 rounded-lg ">
+                  <form method="POST" action="/folder" class=" min-w-40 h-full flex items-center flex-col justify-between gap-5">
+                    <h2 class="font-semibold text-4xl text-center text-zinc-800">Add a New Folder</h2>
+                    <div>
+                      <labe class="text-2xl font-semibold">Folder Name</label>
+                      <br>
+                      <input type="text" required min="3" max="40" required class="border-2">
+                    </div>
+                    <button class="p-3 px-4 bg-black rounded-lg text-white" id="create_Folder" type="submit" >Create Folder</button>
+                  </form>
+                </dialog>
+                <label for="create_folder" class="font-semibold text-2xl cursor-pointer">New Folder</label>
+              </div>
+              <!-- Create a File -->
+             <form class=" flex items-center xl:justify-start flex-col xl:flex-row  justify-center" method="POST" action="/file/upload"   enctype="multipart/form-data">
+                <div class="flex items-center gap-5 xl:flex-row flex-col ">
+                  <label for="file"><i class="fa-solid fa-file-circle-plus text-4xl hover:text-blue-400"></i></label>
+                  <input name="file" id="file" type="file" class="file:hidden w-0">
+                  <p id="fileValue" class="text-md font-semibold "></p>
+                </div>
+                <button id="home-fileUpload" class="p-3 px-4 bg-black rounded-lg text-white w-full disabled:bg-zinc-600 " disabled>Upload</button>
+             </form>
+          </div>
+        </section>
+        <!-- Files -->
+        <section class="grid grid-rows-1 border-l-2 border-r-2 ">
+            <% bucket.files.forEach((f)=>{ %>
+              <a target="_blank" id="downloadFolderContent" class='w-full col-span-2 even:bg-slate-200 hover:bg-slate-300 '  href=<%= f.url %> >
+                <div class="flex p-5 border-2 justify-between items-center group cursor-pointer w-full">
+                <span class="font-semibold text-3xl italic "><%=f.name%></span>
+                    <div class=" gap-3  text-4xl items-center hidden transition-all duration-200 ease-in-out group-hover:flex">
+                        <form method="POST" action=<%= "/file/delete/"+ f.id %> 
+                          <button id="Edit Folder Name"><i class="fa-solid fa-trash hover:text-red-700"></i></button>
+                        </form>
+                        <button id="Delete Folder"><i class="fa-solid fa-pen-to-square hover:text-red-700"></i></button>
+                    </div>
+              </div>
+            </a>
+              <% }) %>
+              <% bucket.folders.forEach((f)=>{ %>
+                <div class="flex p-5 border-2 justify-between col-span-2 items-center even:bg-slate-200 hover:bg-slate-300 group">
+                  <span class="font-semibold text-3xl " id=<%= f.format %> ><%=f.name%></span>
+                      <div class="hover:flex gap-3  text-3xl items-center hidden transition-all duration-200 ease-in-out group-hover:flex" id=<%= f.id %>>
+                          <form method="GET" action=<%=`/folder/${user.id}/${f.id}`%>  >
+                            <button id="downloadFolderContent"><i class="fa-solid fa-arrow-up-right-from-square hover:text-red-700"></i></button>
+                          </form>
+                          <button id="Edit Folder Name"><i class="fa-solid fa-pen-to-square hover:text-red-700"></i></button>
+                          <button id="Delete Folder"><i class="fa-solid fa-trash hover:text-red-700"></i></button>
+                      </div>
+                </div>
+                <% }) %>
+            </section>
+            <script src="/javascripts/user.js"></script>
+</body>
+</html>
