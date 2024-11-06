@@ -2,8 +2,7 @@
 A CDN Storage website that mimics filesharing/ storing on the web. Authenticates users using Passport.js with Express backend and Postgres Database. 
 # Authentication
 Hellhole IO works by having a user either Login or Signup for an account. This account is rudimentary but can be modified further in the Prisma Schema.
-![Uploading Screenshot 2024-11-06 at 12.30.46 PM.png…]()
-
+<img width="849" alt="Screenshot 2024-11-06 at 12 30 46 PM" src="https://github.com/user-attachments/assets/9bffa9f3-66e0-43cc-a0de-47c82ecb18d6">
 # Buckets
 The main storage system implemented within HellHole IO is the bucket management system. Its a simple design, where a bucket may hold several other folders or files. My bucket files are managed/ hosted on Cloudinary. Simply add en environment variable API_ENVIRONMENTAL_VARIABLE= <Your Key> to link the main driver of this web application.
 # File Upload
